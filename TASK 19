@@ -1,0 +1,8 @@
+mkdir my-microservices
+cd my-microservices
+git init
+echo "# Microservices Demo" > README.md
+git add .
+git commit -m "Initial commit with project structure"
+git remote add origin https://github.com/your-username/microservices-demo.git
+git push -u origin main
