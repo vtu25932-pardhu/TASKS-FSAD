@@ -1,0 +1,36 @@
+@Entity
+public class Product {
+    @Id @GeneratedValue
+    private Long id;
+    private String name;
+    private double price;
+    // getters/setters
+}
+
+
+*ProductController.java*
+java
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+    @GetMapping
+    public List<Product> getAll() { /* return product list */ }
+
+    @GetMapping("/{id}")
+    public Product getById(@PathVariable Long id) { /* return product */ }
+}
+
+
+*application.yml*
+yaml
+spring:
+  application:
+    name: product-service
+
+server:
+  port: 8081
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
