@@ -1,0 +1,33 @@
+@WebMvcTest(ProductController.class)
+class ProductControllerTest {
+    @MockBean
+    private ProductService productService;
+
+    @Test
+    void testGetProductById() throws Exception {
+        when(productService.getById(1L)).thenReturn(new Product(1L, "Laptop", 999.99));
+        
+        mockMvc.perform(get("/products/1"))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.name").value("Laptop"));
+    }
+}
+
+
+
+java
+@ExtendWith(MockitoExtension.class)
+class OrderServiceTest {
+    @Mock private RestTemplate restTemplate;
+    @Mock private DiscoveryClient discoveryClient;
+
+    @Test
+    void testGetProductFromCatalogHandlesFailure() {
+        when(discoveryClient.getInstances("product-service")).thenReturn(Collections.emptyList());
+        
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            orderService.getProductFromCatalog(1L);
+        });
+        assertEquals("Product service unavailable", exception.getMessage());
+    }
+}
